@@ -1,3 +1,5 @@
+package impl;
+
 public interface Sensor {
   boolean isTriggered();
     // returns true/ false for whether the sensor is triggered or not.

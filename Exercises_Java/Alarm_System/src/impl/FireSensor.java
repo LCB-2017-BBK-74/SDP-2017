@@ -1,3 +1,5 @@
+package impl;
+
 import java.util.Random;
 
 public class FireSensor implements Sensor {
@@ -7,19 +9,12 @@ public class FireSensor implements Sensor {
   private double batteryPercentage;
   private Random randomint;
 
-  public FireSensor(String sensorLocation) {
-    this.location = sensorLocation;
+  public FireSensor(String location) {
+    this.location = location;
     this.sensorType = "Fire_sensor";
     this.batteryPercentage = 100;
     randomint = new Random();
     randomint.setSeed(1); // not sure if I need this or not. Will give a consistent result?
-  }
-
-  public void checkRandomNumber() {
-    int count = 0;
-    for (int i = 0; i < 1000; i++) {
-      System.out.println(randomint.nextInt(100) <= 5);
-    }
   }
 
   /**
@@ -50,11 +45,6 @@ public class FireSensor implements Sensor {
   @Override
   public double getBatteryPercentage() {
     return batteryPercentage;
-  }
-
-  public static void main(String[] args) {
-    FireSensor fireSensor = new FireSensor("Auditorium");
-    fireSensor.checkRandomNumber();
   }
 
 }
