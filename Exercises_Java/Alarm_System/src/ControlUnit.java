@@ -5,7 +5,7 @@ public class ControlUnit {
 
   public void pollSensors() {
     List<Sensor> sensors = new ArrayList<Sensor>();
-    sensors.add(new FireSensor());
+    sensors.add(new FireSensor("Auditorium"));
     sensors.add(new SmokeSensor());
 
     for (Sensor sensor : sensors) {

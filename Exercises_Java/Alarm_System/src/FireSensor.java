@@ -7,9 +7,9 @@ public class FireSensor implements Sensor {
   private double batteryPercentage;
   private Random randomint;
 
-  public FireSensor() {
-    this.location = location;
-    this.sensorType = "Fire sensor";
+  public FireSensor(String sensorLocation) {
+    this.location = sensorLocation;
+    this.sensorType = "Fire_sensor";
     this.batteryPercentage = 100;
     randomint = new Random();
     randomint.setSeed(1); // not sure if I need this or not. Will give a consistent result?
@@ -33,8 +33,6 @@ public class FireSensor implements Sensor {
     if (this.getBatteryPercentage() == 0) return false;
     else {
       batteryPercentage -= 10;
-      //Random randomint = new Random();
-      // randomint.setSeed(1); use for testing
       return randomint.nextInt(100) <= 5;
     }
   }
@@ -46,16 +44,16 @@ public class FireSensor implements Sensor {
 
   @Override
   public String getSensorType() {
-    return null;
+    return sensorType;
   }
 
   @Override
   public double getBatteryPercentage() {
-    return -1;
+    return batteryPercentage;
   }
 
   public static void main(String[] args) {
-    FireSensor fireSensor = new FireSensor();
+    FireSensor fireSensor = new FireSensor("Auditorium");
     fireSensor.checkRandomNumber();
   }
 
