@@ -24,11 +24,11 @@
 
     def pow2(y: Double) = y * y
 
-    var (x: Double) = -1
+    var x:Double = -1
 
     while (x != 0) {
       println("Please enter a number in the console")
-      var (x: Double) = scala.io.StdIn.readDouble()
+      x = scala.io.StdIn.readDouble()
       println("You entered the number " + x)
       println("... and the number squared is " + {pow2(x)})
     }
