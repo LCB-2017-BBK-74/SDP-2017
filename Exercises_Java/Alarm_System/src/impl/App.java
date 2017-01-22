@@ -6,9 +6,12 @@ import java.util.Scanner;
 public class App {
   private static final String EXIT = "exit";
   private static final String POLL = "poll";
-  
+
+  //List of hazardSensors and securitySensors goes here?
+
   public static void main(String[] args) throws IOException {
-    ControlUnit controlUnit = new ControlUnit();
+    ControlUnit controlUnit = new ControlUnit(hazardSensors); // controls hazard sensors only
+    SecurityControlUnit securityControlUnit = new SecurityControlUnit(securitySensors); // amended for security sensors
 
     Scanner scanner = new Scanner(System.in);
     String input = "";
@@ -17,6 +20,7 @@ public class App {
       input = scanner.nextLine();
       if (input.equals(POLL)) {
         controlUnit.pollSensors();
+        securityControlUnit.pollSensors();
       }
     }
   }
