@@ -1,0 +1,41 @@
+# Week 2: SOLID principles using the Alarm System example
+# Notes responding to questions in the worksheet
+
+
+/** Q3. ControlUnit.pollSensors() method. Its current responsibilities are to add sensors to an ArrayList,
+ * instantiating a new object each time new FireSensor(location) or new SmokeSensor(location) is called
+ * If the sensor is triggered, get the sensor type and sensor location and print them;
+ *  Finally to print a message stating that theu have been polled successfully
+ *  Sensors will be polled each time the pollSensors() method is called but not always triggered
+ *
+ *  The current design - creating the list of sensors within the pollSensors() method in the ControlUnit class -
+ *  violates the Single Responsibility Principle (the S of SOLID).
+ *  Instead, we want to create the list outside the pollSensors() method, but still within the ControlUnit class.
+ *  Alternatively we could create a new class just for creating the sensor list, but this feels over-complex.
+ */
+
+/**
+ * Q4. Now I've created a constructor which initialises an empty arrayList, sensors, and configures the sensors
+ * The configureSensors() method adds the sensors to a list
+ * Now the pollSensors() method simply checks each sensor and prints out whether it has been triggered or polled
+ */
+
+/**
+ * Q6. A new use case! The alarm system now consists of hazard sensors (fire and smoke) and security sensors (motion and heat)
+ * Therefore we need a way to distinguish between the SecuritySensor sensor and the HazardSensor.
+ * SecuritySensor inherits from the Sensor interface.
+ * SecuritySensor types of sensor don't run on battery so now the getBatteryPercentage method is redundant for a whole set
+ * of sensors, the SecuritySensors. Also, the isTriggered() method now needs to be changed too because this will break for
+ * sensors without batteries (could be overridden).
+ * This violates the O of SOLID (Open-Closed Principle), which states that code entities should be open for extension,
+ * but closed for modification. In other words, we should write a class that does what it needs to do flawlessly
+ * without assuming that people can come in and change it later. It should be closed for modification but can be
+ * extended, by for example, inheriting from it or overriding methods and extending certain behaviours.
+ *
+ * Q6 and Q8. Therefore we need a new interface: SecuritySensor and HazardSensor, which extend the Sensor interface
+ * (remember Meeting, PastMeeting and FutureMeeting from ContactManager)
+ * Take the getBatteryPercentage() method out of Sensor
+ * then interface SecuritySensor extends Sensor but is purely for naming purposes; and classes MotionSensor and HeatSensor implement SecuritySensor
+ * and interface HazardSensor extends Sensor, with an extra method getBatteryPercentage();
+ * and classes FireSensor and SmokeSensor implement HazardSensor.
+
