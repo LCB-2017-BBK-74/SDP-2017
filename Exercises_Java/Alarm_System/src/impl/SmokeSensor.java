@@ -2,7 +2,7 @@ package impl;
 
 import java.util.Random;
 
-public class SmokeSensor implements Sensor {
+public class SmokeSensor implements HazardSensor {
 
   private String location;
   private String sensorType;
@@ -14,7 +14,7 @@ public class SmokeSensor implements Sensor {
     this.sensorType = "Smoke_sensor";
     this.batteryPercentage = 100;
     randomint = new Random();
-    randomint.setSeed(2);
+    //randomint.setSeed(2);
   }
 
   /**

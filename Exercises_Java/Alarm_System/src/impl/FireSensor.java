@@ -2,7 +2,7 @@ package impl;
 
 import java.util.Random;
 
-public class FireSensor implements Sensor {
+public class FireSensor implements HazardSensor {
 
   private String location;
   private String sensorType;
@@ -14,7 +14,7 @@ public class FireSensor implements Sensor {
     this.sensorType = "Fire_sensor";
     this.batteryPercentage = 100;
     randomint = new Random();
-    randomint.setSeed(1); // not sure if I need this or not. Will give a consistent result?
+    //randomint.setSeed(1); // not sure if I need this or not. Will give a consistent result?
   }
 
   /**

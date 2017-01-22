@@ -14,8 +14,17 @@ public class ControlUnitTest {
      */
     @Test
     public void createNewControlUnitPrintsSomeText(){
+        for (int i = 0; i < 20; i++) {
+            System.out.println("This is test " + i);
+            ControlUnit cu = new ControlUnit();
+            cu.pollSensors();
+        }
+    }
+
+    @Test
+    public void constructorCreatesListOfSizeSix() {
         ControlUnit cu = new ControlUnit();
-        cu.pollSensors();
+        assertEquals(6, cu.getSensors().size());
     }
 
 
