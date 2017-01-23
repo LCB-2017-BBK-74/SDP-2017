@@ -10,35 +10,45 @@ import java.time.LocalTime;
  */
 public class SecurityControlUnit extends ControlUnit {
 
-    private List<Sensor> configuredSensors;
+   private List<Sensor> configuredSensors = new ArrayList<>();
 
     public SecurityControlUnit() {
         super();
     }
 
-    public void configureControlUnitSensors() {
-        super.configureControlUnitSensors();
+    @Override // method has different behaviour to ControlUnit
+    public void addSensor(String location, String sensorType) throws IllegalArgumentException, NullPointerException {
+
+        if (location == null || sensorType == null) {
+            throw new NullPointerException("You must specify a location and sensor type");
+        }
+        if (sensorType == "Fire" || sensorType == "Smoke" || sensorType == "") {
+            throw new IllegalArgumentException("Sensor type must be a security sensor, such as Motion");
+
+        } else if (sensorType == "Motion") {
+            configuredSensors.add(new MotionSensor(location));
+
+        } else {
+            System.out.println("You must add a sensor to configure the Control Unit. Please try again");
+        }
     }
 
-    public void pollSensors() {
-        super.pollSensors();
+    public List<Sensor> getSensors() {
+        return configuredSensors;
     }
 
     public boolean timeCheck() {
         LocalTime timePoint = LocalTime.now();
         LocalTime timeOn = LocalTime.of(22,0);
         LocalTime timeOff = LocalTime.of(6,0);
-        if (timePoint.isAfter(timeOn) || timePoint.isBefore(timeOff)) {
-            return true;
-        }
-        return false;
+        return (timePoint.isAfter(timeOn) || timePoint.isBefore(timeOff));
     }
 
-    public void pollSecuritySensors() {
+    @Override
+    public void pollSensors() {
         if (timeCheck()) {
             super.pollSensors();
         }
-
     }
 
 }

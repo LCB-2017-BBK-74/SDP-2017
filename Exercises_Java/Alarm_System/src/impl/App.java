@@ -4,24 +4,31 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class App {
+
   private static final String EXIT = "exit";
   private static final String POLL = "poll";
 
-  //List of hazardSensors and securitySensors goes here?
-
   public static void main(String[] args) throws IOException {
-    ControlUnit controlUnit = new ControlUnit();
-    SecurityControlUnit securityControlUnit = new SecurityControlUnit();
+      ControlUnit cu = new ControlUnit();
+      cu.addSensor("Lobby_1st_floor", "Fire");
+      cu.addSensor("Auditorium", "Smoke");
+      cu.addSensor("Cloakroom","Smoke");
+      cu.addSensor("Meeting_room_1","Fire");
 
-    Scanner scanner = new Scanner(System.in);
-    String input = "";
-    while (!input.equals(EXIT)) {
-      System.out.println("Type \"poll\" to poll all sensors once or \"exit\" to exit");
-      input = scanner.nextLine();
-      if (input.equals(POLL)) {
-        controlUnit.pollSensors();
-        securityControlUnit.pollSensors();
+      SecurityControlUnit scu = new SecurityControlUnit();
+      scu.addSensor("Lobby_ground_floor","Motion");
+      scu.addSensor("Cloakroom","Motion");
+      scu.addSensor("Meeting_room_2","Motion");
+
+      Scanner scanner = new Scanner(System.in);
+      String input = "";
+      while (!input.equals(EXIT)) {
+        System.out.println("Type \"poll\" to poll all sensors once or \"exit\" to exit");
+        input = scanner.nextLine();
+        if (input.equals(POLL)) {
+            cu.pollSensors();
+            scu.pollSensors();
+        }
       }
-    }
   }
 }

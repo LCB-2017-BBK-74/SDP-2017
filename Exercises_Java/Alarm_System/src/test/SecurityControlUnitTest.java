@@ -1,62 +1,78 @@
 package test;
 
-import impl.MotionSensor;
-import impl.Sensor;
 import impl.SecurityControlUnit;
-import impl.SecuritySensor;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SecurityControlUnitTest {
 
-    protected String location1 = "Auditorium";
-    protected String location2 = "Break_out_room";
-    protected String location3 = "Cloakroom";
-
-    private SecuritySensor ms1 = new MotionSensor(location1);
-    private SecuritySensor ms2 = new MotionSensor(location2);
-    private SecuritySensor ms3 = new MotionSensor(location3);
-
-    List<Sensor> motionSensors = Arrays.asList(ms1, ms2, ms3);
-
-    /**
-     * Current setup of SecurityControlUnit does not lend itself easily to tests so this simply checks that
-     * all 3 sensors are listed when either triggered or polled
-     */
     @Test
-    public void createSecurityNewControlUnitPrintsSomeText(){
-        for (int i = 0; i < 20; i++) {
-            System.out.println("This is test " + i);
-            SecurityControlUnit scu = new SecurityControlUnit(motionSensors);
-            scu.pollSensors();
-        }
+    public void createNewSecurityControlUnitCreatesEmptySensorList(){
+        SecurityControlUnit scu = new SecurityControlUnit();
+        assertEquals(0,scu.getSensors().size());
     }
 
     @Test
-    public void constructorCreatesListOfSizeThree() {
-        SecurityControlUnit scu = new SecurityControlUnit(motionSensors);
+    public void addingSensorsCreatesCorrectSizedList() {
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor","Motion");
+        scu.addSensor("Auditorium", "Motion");
+        scu.addSensor("Cloakroom", "Motion");
         assertEquals(3, scu.getSensors().size());
     }
 
     @Test
+    public void addSensorNullLocationThrowsNullPointerException() {
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor(null,"Fire");
+        Throwable exception = assertThrows(NullPointerException.class, () -> {
+            throw new NullPointerException("You must specify a location and sensor type");
+        });
+        assertEquals("You must specify a location and sensor type", exception.getMessage());
+    }
+
+    @Test
+    public void addSensorNullTypeThrowsNullPointerException() throws NullPointerException {
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor", "null");
+    }
+
+    @Test
+    public void addMotionSensorThrowsIllegalArgumentException() throws IllegalArgumentException {
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor", "Motion");
+    }
+
+    @Test
     public void getSensorsReturnsSensors() {
-        SecurityControlUnit scu = new SecurityControlUnit(motionSensors);
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor","Motion");
+        scu.addSensor("Auditorium", "Motion");
+        scu.addSensor("Cloakroom", "Motion");
         System.out.println(scu.getSensors().toString());
     }
 
+    /**
+     * Need to adjust the outcome of this test depending on the local time. Should be true from 22:00 - 06:00
+     */
     @Test
     public void timeCheckReturnsTrueIfInRange() {
-        SecurityControlUnit scu = new SecurityControlUnit(motionSensors);
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor","Motion");
+        assertTrue(scu.timeCheck());
     }
 
     @Test
-    public void timeCheckReturnsFalseIfOutsideRange() {
-        // test not yet implemented
+    public void sensorsPolledIfTimeCheckInRange() {
+        SecurityControlUnit scu = new SecurityControlUnit();
+        scu.addSensor("Lobby_ground_floor","Motion");
+        scu.addSensor("Auditorium", "Motion");
+        scu.addSensor("Cloakroom", "Motion");
+        scu.pollSensors();
     }
+
 }
 

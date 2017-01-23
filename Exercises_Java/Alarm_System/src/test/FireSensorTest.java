@@ -12,7 +12,7 @@ public class FireSensorTest {
   private String location3 = "Cloakroom";
 
   @Test
-  public void testLocationOmittedThrowsNPE() throws NullPointerException {
+  public void testLocationOmittedThrowsNPE() throws NullPointerException{
     FireSensor sensor = new FireSensor(null);
   }
 
