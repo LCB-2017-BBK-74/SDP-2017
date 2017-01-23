@@ -10,8 +10,8 @@ public class App {
   //List of hazardSensors and securitySensors goes here?
 
   public static void main(String[] args) throws IOException {
-    ControlUnit controlUnit = new ControlUnit(hazardSensors); // controls hazard sensors only
-    SecurityControlUnit securityControlUnit = new SecurityControlUnit(securitySensors); // amended for security sensors
+    ControlUnit controlUnit = new ControlUnit();
+    SecurityControlUnit securityControlUnit = new SecurityControlUnit();
 
     Scanner scanner = new Scanner(System.in);
     String input = "";
