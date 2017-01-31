@@ -12,9 +12,8 @@ public class FireSensor implements HazardSensor {
   public FireSensor(String location) {
     this.location = location;
     this.sensorType = "Fire_sensor";
-    this.batteryPercentage = 100;
+    this.batteryPercentage = 100.0;
     randomint = new Random();
-    //randomint.setSeed(1); // not sure if I need this or not. Will give a consistent result?
   }
 
   /**
@@ -25,11 +24,8 @@ public class FireSensor implements HazardSensor {
    */
   @Override
   public boolean isTriggered() {
-    if (this.getBatteryPercentage() == 0) return false;
-    else {
-      batteryPercentage -= 10;
+    if (this.getBatteryPercentage() != 0) batteryPercentage -= 10;
       return randomint.nextInt(100) <= 5;
-    }
   }
 
   @Override
