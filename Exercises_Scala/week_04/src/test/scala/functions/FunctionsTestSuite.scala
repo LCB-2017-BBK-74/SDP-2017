@@ -34,7 +34,7 @@ class FunctionsTestSuite extends FunSuite {
     assert(product(List(1.0, 2.0, 3.0, 4.0, 5.0)) == 120.0)
   }
 
-  test("length calculates the length") {
+  test("simplelength calculates the simplelength") {
     assert(length("Hello".toList) == 5)
   }
 
