@@ -4,7 +4,7 @@ package basics
   * Created by lucieburgess on 26/01/2017.
   * Running tests without using PublicScalaBasicsSuite
   */
-object ScalaBasicsWorksheet extends App {
+object ScalaBasicsTest extends App {
 
     def oddRange(n: Int): Range = 1.to(n).by(2)
     oddRange(5)

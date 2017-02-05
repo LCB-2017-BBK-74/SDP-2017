@@ -114,17 +114,17 @@ class PublicScalaBasicsSuite extends FunSuite {
     }
   }
 
-   test("[10] sumChars should sum up the characters as integers from its parameters") {
-     TreeTraversals.getMethod("src/main/scala/basics/ScalaBasics.scala", "sumChars") match {
-       case Some(method) =>
-         //assert(TreeTraversals.hasVarDef(method), "Your implementation did not use a var declaration")
-         assert(TreeTraversals.hasForEach(method), "You implementation must use a for loop")
-       case None =>
-         fail("The method sumChars does not exist")
-     }
-     assert(sumChars("chicken".toCharArray: _*) == 725, "chicken should sum to 725")
-     assert(sumChars("the true sign of intelligence is not ...".toCharArray: _*) == 3601, "this should sum to 3601")
-   }
+  test("[10] sumChars should sum up the characters as integers from its parameters") {
+    TreeTraversals.getMethod("src/main/scala/basics/ScalaBasics.scala", "sumChars") match {
+      case Some(method) =>
+        //assert(TreeTraversals.hasVarDef(method), "Your implementation did not use a var declaration")
+        assert(TreeTraversals.hasForEach(method), "You implementation must use a for loop")
+      case None =>
+        fail("The method sumChars does not exist")
+    }
+    assert(sumChars("chicken".toCharArray: _*) == 725, "chicken should sum to 725")
+    assert(sumChars("the true sign of intelligence is not ...".toCharArray: _*) == 3601, "this should sum to 3601")
+  }
 
   test("[11] wordCounter should return a map of words and word frequency across several lines") {
     TreeTraversals.getMethod("src/main/scala/basics/ScalaBasics.scala", "wordCounter") match {
