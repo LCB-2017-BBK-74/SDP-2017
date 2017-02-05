@@ -1,48 +1,21 @@
 package functions
 
-import scala.annotation._
-
 object Funcs {
 
   // FUNCTIONAL BASICS:
 
-
-//  sealed trait List[+A]
-//
-//  // A data constructor for the empty list.
-//  // Nothing is a subtype of all types - so, Nil can be considered
-//  // a List[Int], List[String], etc. which is important for our
-//  // definition.
-//  case object Nil extends List[Nothing]
-//
-//  // A data constructor for representing a non-empty list.
-//  case class Cons[+A](head: A, tail: List[A]) extends List[A]
-
-  // The list companion object.
-  object List {
-
-    def length[A](ls: List[A]): Int = ls match {
-      case Nil => 0
-      case h::t => 1 + length(t) //recursively call a function which calculates the simplelength of the list
-    }
-
-    def simpleSum(ints: List[Int]): Int = ints match {
-      case Nil => 0
-      case h::t => h + simpleSum(t) //sum the list if A is a list of integers
-    }
-
-    /**
-      * tail that takes a list and removes the first element, returning the rest
-      * of the list (i.e. the tail)
-      * Calling tail on an empty list throws an IllegalArgumentException.
-      *
-      * @param ls : List[A] the list to process
-      * @return A list containing all but the first element of ls
-      */
-    def tail[A](ls: List[A]): List[A] = ls match {
-      case Nil => throw new IllegalArgumentException
-      case h::t => t
-    }
+  /**
+    * tail that takes a list and removes the first element, returning the rest
+    * of the list.
+    * Calling tail on an empty list throws an IllegalArgumentException.
+    *
+    * @param ls : List[A] the list to process
+    * @return A list containing all but the first element of ls
+    */
+  def tail[A](ls: List[A]): List[A] = ls match {
+    case Nil => throw new IllegalArgumentException
+    case h::t => t
+  }
 
   /**
     * setHead replaces the first value in a list with a given value. If the
@@ -50,7 +23,7 @@ object Funcs {
     *
     * @param ls : List[A] the list to be changed
     * @param a  : A the value that will replace the head of ls
-    * @return a list whose head is 'a' and whose tail is all but the first
+    * @return a list whose head is `a' and whose tail is all but the first
     *         element of ls.
     **/
   def setHead[A](ls: List[A], a: A): List[A] = ls match {
@@ -60,7 +33,7 @@ object Funcs {
 
   /**
     * drop removes n elements from the given list. If n is greater than the
-    * simplelength of the list, the function returns an empty list.
+    * length of the list, the function returns an empty list.
     *
     * @param ls : List[A] the list to be changed
     * @param n  : Int the number of elements to drop.
@@ -83,7 +56,7 @@ object Funcs {
     */
   def init[A](ls: List[A]): List[A] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call init on an empty list")
-    case h::t => if (ls.length eq 1) Nil else h::init(t)
+    case h::t => if (ls.length == 1) Nil else h::init(t)
     //case Cons(h,t) => if (simplelength(ls) == 2) Cons (h, Nil) else if (simplelength(ls) == 1) Nil else Cons (h, init(t))
   }
 
@@ -92,49 +65,42 @@ object Funcs {
   /*
    * foldLeft reduces a list down to a single value by iteratively applying a
    * function over the elements of the list and carrying the cumulative result
-   * along. It starts from the head and moves to the tail.
+   * along.
    * We've provided the signature for foldLeft below.
    * @param ls: List[A] the list to be reduced.
    * @param z: B the initial value
    * @param f: (B, A) => B the binary function applied to the elements of the
    * list and the cumulative value.
-   * @return the final value.
+   * @return the final valued.
    */
-
-  @tailrec def foldLeft[A, B](list: List[A], acc: B)(f: (A, B) => B): B = list match {
-      case Nil => acc
-      case h::t => foldLeft(t, f(h, acc))(f)
+  def foldLeft[A, B](ls: List[A], z: B)(f: (B, A) => B): B = ls match {
+    case Nil => z
+    case h::t => foldLeft(t, f(z, h))(f)
   }
 
-  //Iterative version of foldLeft which does not use recursion
-  def foldLeftIt[A, B] (list: List[A], z: B)(f: (A,B) => B): B = list match {
+  //Iterative version of foldLeft which does not use recursion FAILS TESTS
+  def foldLeftIt[A, B] (ls: List[A], z: B)(f: (A,B) => B): B = ls match {
     case Nil => z
     case h::t => {
       var acc = z
-      var remainder = list
-      while (remainder.length ne 0) {
+      var remainder = ls
+      while (remainder.length != 0) {
         acc = f(h, acc)
-        remainder = tail(list)
+        remainder = tail(t)
       }
       acc
     }
   }
 
-    /**
-      * foldRight implementation: starts at the tail and moves to the head - just for fun, not required
-      * @param ls the list to be acted on
-      * @param z the accumulator, of type B
-      * @param f the function to be applied to each element of the list
-      * @tparam A the type of the List[A]
-      * @tparam B the type of the accumulator[B]
-      * @return
-      */
-    def foldRight[A, B](ls: List[A], z: B)(f: (A, B) => B): B = ls match {
-      case Nil => z
-      case h::t => f(h, foldRight(t,z)(f))
-    }
+  /**
+    * foldRight implementation: starts at the tail and moves to the head - just for fun, not required
+    */
+  def foldRight[A, B](ls: List[A], z: B)(f: (B, A) => B): B = ls match {
+    case Nil => z
+    case h::t => f(foldRight(t,z)(f),h)
+  }
 
-    /**
+  /**
     * Use your implementation of foldLeft to implement these functions:
     * - sum: Takes a List[Double] and produces the sum of all elements
     * - product: Takes a List[Double] and produces the product of all elements
@@ -150,11 +116,11 @@ object Funcs {
 
   def product(ls: List[Double]): Double = foldLeft(ls,1.0)((x,y) => x * y)
 
-  def length[A](ls: List[A]): Int = foldLeft(ls,0)((x,y) => 1)
+  def length[A](ls: List[A]): Int = foldLeft(ls,0)((x,y) => x + 1)
 
-  def reverse[A](ls: List[A]): List[A] = foldLeft(ls, List[A])((x,y) => y.::(List[A])) // why isn't :: operator working?
+  def reverse[A](ls: List[A]): List[A] = foldLeft(ls, List[A])((x,y) => x.::(y)) // want to add y to empty List[A]
 
-  def flatten[A](ls: List[List[A]]): List[A] = foldLeft(ls, List[A])((x,y) => x.::(List[A]) ) // add each list to an empty list, concatenating all the lists
+  def flatten[A](ls: List[List[A]]): List[A] = foldLeft(ls, List[A])((x,y) => x ++.y) // want to add x to empty List[A]
 
   // MAP AND FILTER
 
@@ -169,11 +135,9 @@ object Funcs {
     */
   def map[A, B](ls: List[A])(f: A => B): List[B] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call map on an empty list")
-    //case Cons(h,t) => foldLeft(t, f(h, acc))(f)
-      // case Cons(h,t => map(t,f(h))
     case h::t => {
-      if (length(ls) eq 1) f(h)::Nil // again would like to use notation f(h)::Nil
-      else map(t)(f)
+      if (ls.length == 1) f(h)::Nil
+      else map(h::t)(f)
     }
   }
 
@@ -189,7 +153,7 @@ object Funcs {
   def filter[A](ls: List[A])(f: A => Boolean): List[A] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call filter on an empty list")
     case h::t => {
-      if (ls.length eq 1) {
+      if (ls.length == 1) {
         if (f(h)) h::Nil else drop(ls,1)
       }
       else filter(t)(f)
@@ -197,7 +161,7 @@ object Funcs {
   }
 
   /**
-    * flatMap is very similar to map. However, the map function returns a List,
+    * flatMap is very similar to map. However, the function returns a List,
     * and flatMap flattens all of the resulting lists into one.
     *
     * @param ls : List[A] the list to be changed.
@@ -207,7 +171,7 @@ object Funcs {
     */
   def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ls match {
     case Nil => throw new IllegalArgumentException("You cannot apply flatMap to an empty list")
-    case h::t => foldLeft(map(ls)(f),List[A])((x,y) => x.::(List[A])) // maps ls using f then flattens by appending each element to an empty list
+    case h::t => foldLeft(map(ls)(f),List[A])((x,y) => x + y) // maps ls using f then flattens by appending each element to an empty list
   }
 
   // COMBINING FUNCTIONS
@@ -219,7 +183,7 @@ object Funcs {
     * You must use the methods you wrote above, particularly map and foldLeft.
     *
     * @param ls : List[(Double,Double)] a list of pairs of real numbers, whose
-    *           simplelength is greater than 0.
+    *           length is greater than 0.
     * @return the average value of the largest values in the pairs.
     */
   def maxAverage(ls: List[(Double, Double)]): Double = ???
@@ -233,10 +197,8 @@ object Funcs {
     * 2) For each value V in the input, calculate (V - M)^2.
     * 3) Find the variance.
     * Which methods that we've already defined can you use? (At least one!)
-    * @param ls     : List[Double] a list of values, whose simplelength is greater than 0.
+    * @param ls     : List[Double] a list of values, whose length is greater than 0.
     * @return the variance of the input.
     */
   def variance(ls: List[Double]): Double = ???
-
-  }
 }
