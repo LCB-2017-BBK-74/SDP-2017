@@ -57,7 +57,6 @@ object Funcs {
   def init[A](ls: List[A]): List[A] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call init on an empty list")
     case h::t => if (ls.length == 1) Nil else h::init(t)
-    //case Cons(h,t) => if (simplelength(ls) == 2) Cons (h, Nil) else if (simplelength(ls) == 1) Nil else Cons (h, init(t))
   }
 
   // LIST FOLDING
@@ -78,19 +77,19 @@ object Funcs {
     case h::t => foldLeft(t, f(z, h))(f)
   }
 
-  //Iterative version of foldLeft which does not use recursion FAILS TESTS
-  def foldLeftIt[A, B] (ls: List[A], z: B)(f: (A,B) => B): B = ls match {
-    case Nil => z
-    case h::t => {
-      var acc = z
-      var remainder = ls
-      while (remainder.length != 0) {
-        acc = f(h, acc)
-        remainder = tail(t)
-      }
-      acc
-    }
-  }
+//  //Iterative version of foldLeft which does not use recursion FAILS TESTS
+//  def foldLeftIt[A, B] (ls: List[A], z: B)(f: (B, A) => B): B = ls match {
+//    case Nil => z
+//    case h::t => {
+//      var acc = z
+//      var remainder = ls
+//      while (remainder.length != 0) {
+//        acc = f(h, acc)
+//        remainder = tail(t)
+//      }
+//      acc
+//    }
+//  }
 
   /**
     * foldRight implementation: starts at the tail and moves to the head - just for fun, not required
@@ -116,11 +115,12 @@ object Funcs {
 
   def product(ls: List[Double]): Double = foldLeft(ls,1.0)((x,y) => x * y)
 
-  def length[A](ls: List[A]): Int = foldLeft(ls,0)((x,y) => x + 1)
+  def length[A](ls: List[A]): Int = foldLeft(ls,0)((x,y) => (x + 1))
 
-  def reverse[A](ls: List[A]): List[A] = foldLeft(ls, List[A])((x,y) => x.::(y)) // want to add y to empty List[A]
+  def reverse[A](ls: List[A]): List[A] = foldLeft(ls, List[A]())((x,y) => y :: x)// want to add y to empty List[A]() - use brackets gives empty list
 
-  def flatten[A](ls: List[List[A]]): List[A] = foldLeft(ls, List[A])((x,y) => x ++.y) // want to add x to empty List[A]
+  def flatten[A](ls: List[List[A]]): List[A] = foldLeft(ls, List[A]())( (x, y) => x ::: y )
+
 
   // MAP AND FILTER
 
@@ -136,10 +136,11 @@ object Funcs {
   def map[A, B](ls: List[A])(f: A => B): List[B] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call map on an empty list")
     case h::t => {
-      if (ls.length == 1) f(h)::Nil
-      else map(h::t)(f)
+      if (ls.length == 1) f(h)::Nil else f(h)::map(t)(f)
     }
   }
+
+  //def foldLeft[A, B](ls: List[A], z: B)(f: (B, A) => B): B
 
   /**
     * filter removes all elements from a list for which a given predicate
@@ -153,26 +154,26 @@ object Funcs {
   def filter[A](ls: List[A])(f: A => Boolean): List[A] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call filter on an empty list")
     case h::t => {
-      if (ls.length == 1) {
-        if (f(h)) h::Nil else drop(ls,1)
-      }
-      else filter(t)(f)
+        if (f(h)) h::filter(t)(f) else filter(t)(f)
     }
   }
 
   /**
     * flatMap is very similar to map. However, the function returns a List,
-    * and flatMap flattens all of the resulting lists into one.
+    * and flatMap flattens all of the resulting lists into one. Basically maps and then flattens the result
     *
     * @param ls : List[A] the list to be changed.
     * @param f  : A => List[B] the function to be applied.
     * @return a List[B] containing the flattened results of applying f to all
     *         elements of ls.
     */
-  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ls match {
-    case Nil => throw new IllegalArgumentException("You cannot apply flatMap to an empty list")
-    case h::t => foldLeft(map(ls)(f),List[A])((x,y) => x + y) // maps ls using f then flattens by appending each element to an empty list
-  }
+
+  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ???
+
+//  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ls match {
+//    case Nil => throw new IllegalArgumentException("You cannot apply flatMap to an empty list")
+//    case h::t => foldLeft(map(ls)(f),List[A]())((x,y) => x :: y) // maps ls using f then flattens by appending each element to an empty list
+//  }
 
   // COMBINING FUNCTIONS
 
