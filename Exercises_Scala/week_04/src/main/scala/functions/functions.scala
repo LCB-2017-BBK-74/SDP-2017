@@ -113,7 +113,11 @@ object Funcs {
     */
   def sum(ls: List[Double]): Double = foldLeft(ls,0.0)((x,y) => x + y)
 
+  def sum2(ls: List[Double]): Double = foldLeft(ls,0.0)(_+_)
+
   def product(ls: List[Double]): Double = foldLeft(ls,1.0)((x,y) => x * y)
+
+  def product2(ls: List[Double]): Double = foldLeft(ls,1.0)(_*_)
 
   def length[A](ls: List[A]): Int = foldLeft(ls,0)((x,y) => (x + 1))
 
@@ -153,14 +157,13 @@ object Funcs {
     */
   def filter[A](ls: List[A])(f: A => Boolean): List[A] = ls match {
     case Nil => throw new IllegalArgumentException("Can't call filter on an empty list")
-    case h::t => {
-        if (f(h)) h::filter(t)(f) else filter(t)(f)
-    }
+    case h::t if f(h) => if (ls.length == 1) h::Nil else h::filter(t)(f)
+    case h::t if !f(h) => filter(t)(f)
   }
 
   /**
     * flatMap is very similar to map. However, the function returns a List,
-    * and flatMap flattens all of the resulting lists into one. Basically maps and then flattens the result
+    * and flatMap flattens all of the resulting lists into one list. Basically maps and then flattens the result
     *
     * @param ls : List[A] the list to be changed.
     * @param f  : A => List[B] the function to be applied.
@@ -168,12 +171,10 @@ object Funcs {
     *         elements of ls.
     */
 
-  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ???
-
-//  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ls match {
-//    case Nil => throw new IllegalArgumentException("You cannot apply flatMap to an empty list")
-//    case h::t => foldLeft(map(ls)(f),List[A]())((x,y) => x :: y) // maps ls using f then flattens by appending each element to an empty list
-//  }
+  def flatMap[A, B](ls: List[A])(f: A => List[B]): List[B] = ls match {
+    case Nil => throw new IllegalArgumentException("You cannot apply flatMap to an empty list")
+    case h::t => flatten(map(ls)(f))
+  }
 
   // COMBINING FUNCTIONS
 
@@ -183,11 +184,19 @@ object Funcs {
     * For example, the maxAverage of List((1,4), (8, 0)) is (8 + 4)/2 = 6.0.
     * You must use the methods you wrote above, particularly map and foldLeft.
     *
+    * see http://stackoverflow.com/questions/12914121/how-to-call-map-on-a-list-of-pairs-in-scala
+    *
     * @param ls : List[(Double,Double)] a list of pairs of real numbers, whose
     *           length is greater than 0.
     * @return the average value of the largest values in the pairs.
     */
-  def maxAverage(ls: List[(Double, Double)]): Double = ???
+  def maxAverage(ls: List[(Double, Double)]): Double = ls match {
+    case Nil => throw new IllegalArgumentException("You cannot apply maxAverage to an empty list")
+    case h::t =>
+      var maxes = map(ls){case (x:Double,y:Double) => (if (x > y) x else y)} // NB. note case statement needed for tuple, or can do line below
+      //var maxes2 = map(ls)(x => if (x._1 > x._2) x._1 else x._2)
+      foldLeft(maxes,0.0)(_+_)/length(maxes)
+  }
 
   /**
     * variance takes a List[Double] and calculates the squared distance
@@ -196,10 +205,16 @@ object Funcs {
     * 1) Find the mean M of the input.
     *
     * 2) For each value V in the input, calculate (V - M)^2.
-    * 3) Find the variance.
+    * 3) Find the variance, which is the average sum of the squares.
     * Which methods that we've already defined can you use? (At least one!)
     * @param ls     : List[Double] a list of values, whose length is greater than 0.
     * @return the variance of the input.
     */
-  def variance(ls: List[Double]): Double = ???
+  def variance(ls: List[Double]): Double = ls match {
+    case Nil => Nil.asInstanceOf[Double]
+    case h::t =>
+      val mean = foldLeft(ls,0.0)(_+_)/length(ls)
+      var variances = map(ls)(x => (x-mean)*(x-mean))
+      foldLeft(variances,0.0)(_+_)/ls.length
+  }
 }
