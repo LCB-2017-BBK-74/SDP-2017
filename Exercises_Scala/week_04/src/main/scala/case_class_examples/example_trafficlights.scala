@@ -1,4 +1,4 @@
-package functions
+package case_class_examples
 
 /**
   * Created by lucieburgess on 09/02/2017.
