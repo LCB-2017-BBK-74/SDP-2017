@@ -13,7 +13,6 @@ case class Person(firstname: String, surname: String) {
     def apply = ???
 
 
-    }
   }
 
 }
