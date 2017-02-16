@@ -1,6 +1,6 @@
 /**
   * Created by lucieburgess on 14/02/2017.
-  * Implement a companion object for a Person class containing an apply method that accepts a whole name as a single string
+  * Implement a companion object for a CasePerson class containing an apply method that accepts a whole name as a single string
   * rather than individual first and last names.
   * Tip: you can split a String into an Array of components as follows: scala> val parts = "John Doe".split(" ")
   * parts: Array[String] = Array(John, Doe)
