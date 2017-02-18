@@ -6,5 +6,4 @@ abstract class Instruction(label: String, opcode: String) {
 
   def execute(m: Machine): Unit
 
-
 }
