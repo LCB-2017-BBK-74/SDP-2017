@@ -1,6 +1,15 @@
 package sml
 
-class AddInstruction(label: String, op: String, val result: Int, val op1: Int, val op2: Int)
+/**
+  * Turned this into a case class so that factory methods can be used later on
+  * @param label, the label of the operation to be acted upon
+  * @param op the operation/instruction to be performed (add/sub/mul/div/out/lin/bnz/null)
+  * @param result the register in which the result is stored
+  * @param op1 the operand in register s1
+  * @param op2 the operand in register s2
+  */
+
+case class AddInstruction(label: String, op: String, val result: Int, val op1: Int, val op2: Int)
   extends Instruction(label, op) {
 
   override def execute(m: Machine) {
