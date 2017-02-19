@@ -21,8 +21,3 @@ object LinInstruction {
   def apply(label: String, register: Int, value: Int) =
     new LinInstruction(label, "lin", register, value)
 }
-
-object LinMain extends App {
-  val l1: LinInstruction = new LinInstruction("L1", "lin", 10, 66) // label, opcode, register, value
-  println(l1.toString())
-}
