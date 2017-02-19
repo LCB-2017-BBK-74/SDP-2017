@@ -18,7 +18,7 @@ package sml
     }
 
     override def toString(): String = {
-      super.toString + " " + op1 + " - " + op2 + " to " + result
+      super.toString + s" register $op1 - register $op2 to register $result \n"
     }
   }
 

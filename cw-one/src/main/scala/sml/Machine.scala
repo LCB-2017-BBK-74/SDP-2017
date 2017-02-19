@@ -20,7 +20,7 @@ case class Machine(labels: Labels, prog: Vector[Instruction]) {
   // Precondition: the program and its labels have been stored properly.
   def execute(): Unit = {
     while (pc < prog.length) {
-      val ins = prog(pc)
+      val ins = prog(pc) //prog is a vector. Instruction to be executed is instruction at prog(pc) where pc is the program counter
       pc += 1
       ins execute this
     }

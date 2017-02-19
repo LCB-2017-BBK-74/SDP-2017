@@ -1,6 +1,6 @@
 package sml
 
-import org.scalatest.{BeforeAndAfter, FlatSpec, FunSuite, Matchers}
+import org.scalatest.{BeforeAndAfter, FlatSpec}
 
 /**
   * Created by lucieburgess on 18/02/2017.
@@ -28,20 +28,13 @@ class SMLTest extends FlatSpec with BeforeAndAfter {
 
   behavior of "Lin instruction"
 
-  it should "Have a label of L1" in {
-    assert(l1.label.equals("L1"))
+  it should "Print the correct instruction via its fields when toString() is called" in {
+    assertResult("L1: lin register 10 value is 66 \n"){ l1.toString() }
   }
 
-  it should "Have an opcode of lin" in {
-    assert(l1.opcode.equals("lin"))
-  }
-
-  it should "Have a result register of 10" in {
-    assert(l1.register == 10)
-  }
-
-  it should "Have an operand value of 66" in {
-    assert(l1.value == 66)
+  it should "Create a new instance of LinInstruction when calling apply" in {
+    val lin = LinInstruction("L4",4,72)
+    assert(lin.isInstanceOf[LinInstruction])
   }
 
   it should "Change the value of the register when executed" in {
@@ -51,24 +44,13 @@ class SMLTest extends FlatSpec with BeforeAndAfter {
 
   behavior of "Add instruction"
 
-  it should "Have a label of L2" in {
-    assert(l2.label.equals("L2"))
+  it should "Print the correct instruction via its fields when toString() is called" in {
+    assertResult("L2: add register 10 + register 10 to register 10 \n"){ l2.toString() }
   }
 
-  it should "Have an opcode of add" in {
-    assert(l2.op.equals("add"))
-  }
-
-  it should "Have a result register of 10" in {
-    assert(l2.result == 10)
-  }
-
-  it should "Have an operand op1 value of 10" in {
-    assert(l2.op1 == 10)
-  }
-
-  it should "Have an operand op2 value of 10" in {
-    assert(l2.op2 == 10)
+  it should "Create a new instance of AddInstruction when calling apply" in {
+    val add = AddInstruction("L5",31,5,6)
+    assert(add.isInstanceOf[AddInstruction])
   }
 
   it should "Have a register value of 132 when L2 add is executed" in {
@@ -78,27 +60,16 @@ class SMLTest extends FlatSpec with BeforeAndAfter {
 
   behavior of "Div instruction"
 
-  it should "Have a label of L4" in {
-    assert(l4.label.equals("L4"))
+  it should "Print the correct instruction via its fields when toString() is called" in {
+    assertResult("L4: div register 10 / register 11 to register 12 \n") {l4.toString()}
   }
 
-  it should "Have an opcode of div" in {
-    assert(l4.op.equals("div"))
+  it should "Create a new instance of DivInstriction when calling apply" in {
+    val div = DivInstruction("L6",24,25,27)
+    assert(div.isInstanceOf[DivInstruction])
   }
 
-  it should "Have a result register of 12" in {
-    assert(l4.result == 12)
-  }
-
-  it should "Have an operand op1 value of 10" in {
-    assert(l4.op1 == 10)
-  }
-
-  it should "Have an operand op2 value of 11" in {
-    assert(l4.op2 == 11)
-  }
-
-  it should "Have a register value of 44 when L4 add is executed" in {
+  it should "Have a register value of 44 when L4 div is executed" in {
     l3.execute(mAdd)
     l4.execute(mAdd)
     assert(mAdd.regs(12) == 44)
@@ -106,24 +77,13 @@ class SMLTest extends FlatSpec with BeforeAndAfter {
 
   behavior of "Mul instruction"
 
-  it should "Have a label of F3" in {
-    assert(f3.label.equals("F3"))
+  it should "Print the correct instruction via its fields when toString() is called" in {
+    assertResult("F3: mul register 21 * register 20 to register 21 \n") {f3.toString()}
   }
 
-  it should "Have an opcode of mul" in {
-    assert(f3.op.equals("mul"))
-  }
-
-  it should "Have a result register of 21" in {
-    assert(f3.result == 21)
-  }
-
-  it should "Have an operand op1 value of 21" in {
-    assert(f3.op1 == 21)
-  }
-
-  it should "Have an operand op2 value of 20" in {
-    assert(f3.op2 == 20)
+  it should "Create a new instance of MulInstriction when calling apply" in {
+    val mul = MulInstruction("F3",21,21,20)
+    assert(mul.isInstanceOf[MulInstruction])
   }
 
   it should "Have a register value of 6 when F3 mul is executed" in {
@@ -136,45 +96,18 @@ class SMLTest extends FlatSpec with BeforeAndAfter {
 
   behavior of "Sub instruction"
 
-  it should "Have a label of F4" in {
-    assert(f4.label.equals("F4"))
+  it should "Print the correct instruction via its fields when toString() is called" in {
+    assertResult("F4: sub register 20 - register 22 to register 20 \n") {f4.toString()}
   }
 
-  it should "Have an opcode of sub" in {
-    assert(f4.op.equals("sub"))
-  }
-
-  it should "Have a result register of 20" in {
-    assert(f4.result == 20)
-  }
-
-  it should "Have an operand op1 value of 20" in {
-    assert(f4.op1 == 20)
-  }
-
-  it should "Have an operand op2 value of 22" in {
-    assert(f4.op2 == 22)
+  it should "Create a new instance of SubInstriction when calling apply" in {
+    val sub = SubInstruction("F4",20,20,22)
+    assert(sub.isInstanceOf[SubInstruction])
   }
 
   it should "Have a register value of 5 when F4 sub is executed" in {
     f4.execute(mSixf)
     assert(mSixf.regs(20) == 5)
   }
-
-  behavior of "Bnz instruction" // these tests don't pass yet
-
-  it should "Jump to next register stated when reg value is zero" in {
-    fail()
-    //f5.execute(mSixf) //next instruction should be F3 as register 20 value is 5
-    //assert(mSixf.labels.labels.indexOf(mSixf.pc) == "F3")
-  }
-
-  it should "Print correct string when executed" in {
-    fail()
-    //assertResult(f5.toString().equals("F5: if register 20 is not zero then branch to F3"))
-  }
-
-
-
 
 }
