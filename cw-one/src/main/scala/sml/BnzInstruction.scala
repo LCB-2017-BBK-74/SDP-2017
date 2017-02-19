@@ -23,7 +23,7 @@ case class BnzInstruction(label: String, opcode: String, register: Int, next: St
   }
 
   override def toString(): String = {
-    super.toString + " if register "  + register + "is not zero then branch to " + next + "\n"
+    super.toString + s" if register $register is not zero then branch to $next \n"
   }
 }
 
@@ -31,3 +31,4 @@ object BnzInstruction {
   def apply(label: String, register: Int, next: String) =
     new BnzInstruction(label, "bnz", register, next)
 }
+
