@@ -36,7 +36,7 @@ class FurtherSMLTests extends FunSpec with BeforeAndAfter with GivenWhenThen {
     Given("A new BnzInstruction")
       var instr5: BnzInstruction = new BnzInstruction(bnz,"bnz",result,next)
 
-    When("calling toString()")
+    When("calling toString() it prints correctly using fields")
         assertResult(s"F5: bnz if register $result is not zero then branch to $next \n"){instr5.toString()}
     }
 
@@ -59,11 +59,10 @@ class FurtherSMLTests extends FunSpec with BeforeAndAfter with GivenWhenThen {
       val m: Machine = new Machine(labels,prog)
 
       When("calling the SML Machine to execute the program")
-      m.execute() //executes to instr4
-      //instr5.execute(m) //executes the branch instruction
+      m.execute()
 
-      Then("the value of register 21 should be 30 when the program completes")
-      assert(m.regs(21)===30)
+      Then("the value of register 21 should be 720 when the program completes")
+      assert(m.regs(21)===720) // 6!
     }
   }
 }
