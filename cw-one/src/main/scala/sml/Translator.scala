@@ -25,7 +25,7 @@ class Translator(fileName: String) {
       if (fields.length > 0) {
         labels.add(fields(0))
         val instrfactory = new InstructionFactory()
-        program = program :+ instrfactory.generateInstructions(fields)
+        program = program :+ instrfactory.generateInstruction(fields)
       }
 
 //        fields(1) match {

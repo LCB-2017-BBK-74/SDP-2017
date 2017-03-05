@@ -1,6 +1,8 @@
 package sml;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import sml.Instruction;
 
 /**
@@ -21,33 +23,75 @@ import sml.Instruction;
  */
 public class InstructionFactory {
 
-    public InstructionFactory() {
-        this = null;
-    }
+    private Instruction instr = null;
 
-    private Instruction generateInstruction(Object[] fields) {
+    public Instruction generateInstruction(String[] fields) {
+        Class instrclass = this.generateClass(fields); // generate class of the instruction from opcode e.g. bnz, add
 
-        Instruction instr = ??? //Generate constructor from the class depending on the parameters in fields()
-        //TO DO
+        //Get the constructor arguments by parsing the program line as ints or strings
+        Object[] cparams = new Object[fields.length - 1]; // initialise array to the length of fields - 1 (as we don't want opcode)
+
+        for (int i = 0; i <= fields.length; i++) {
+            try {
+                cparams[i] = Integer.parseInt(fields[i]); // if it doesn't parse as an Integer we want to keep as a string
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                cparams[i] = fields[i];
+            } catch (IllegalStateException ex) { //exception if incompatible types? Do we need to handle exceptions here?
+                ex.printStackTrace();
+            }
+        }
+
+        // Get the constructor argument types, i.e. ints or strings
+        Class[] cparamsTypes = new Class[fields.length - 1]; //inititialise empty Class array to the length of fields
+        for (int i = 0; i < fields.length; i++) {
+            cparamsTypes[i] = cparams[i].getClass();
+        }
+
+        Constructor cons = null;
+        try {
+            cons = instrclass.getConstructor(cparamsTypes); // NoSuchMethodException
+        } catch (NoSuchMethodException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            instr = (Instruction) cons.newInstance(cparams); //InstantationException, IllegalAccessException, InvocationTargetException
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (InvocationTargetException ex) {
+            ex.printStackTrace();
+        }
+        return instr;
     }
 
     /**
-     * @param fields
+     * This method generates the class of the instruction from the instruction opcode, assuming provided in the text file
+     * as either upper case or lower case letters.
+     * @param fields the array of strings passed in by the Translator
      * @return the class of the instruction to be instantiated
      */
-    private Class generateClass(Object[] fields) {
-        Class instrclass = null;
-        String classType = fields[1].toString().toLowerCase();
+    public Class generateClass(String[] fields) {
+        Class instrcl = null;
+        String classType = fields[1].toLowerCase();
         String firstLetter = classType.substring(0).toUpperCase();
-        String className = firstLetter.concat(classType.substring(1,2)).concat("Instruction");
+        String className = firstLetter.concat(classType.substring(1,3)).concat("Instruction");
         try {
-            instrclass = Class.forName(className);
+            instrcl = Class.forName(className);
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-        return instrclass;
+        return instrcl;
     }
 
+    public static void main(String[] Args) {
+        Class instrcl = null;
+        String [] fields =
 
+    }
 
 }
+
