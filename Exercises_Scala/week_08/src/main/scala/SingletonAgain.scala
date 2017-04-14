@@ -1,6 +1,8 @@
 /**
   * Created by lucieburgess on 02/03/2017.
-  * Can't have a constructor for a singleton. It's just an instance of an object
+  * Singleton has a private constructor. It's just an instance of an object
+  * This example demonstrates lazy evaluation
+  *
   */
 
 object SingletonAgain {
