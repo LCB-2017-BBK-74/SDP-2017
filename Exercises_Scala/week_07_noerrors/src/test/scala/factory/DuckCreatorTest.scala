@@ -1,4 +1,5 @@
-import factory.{ConcreteDuckCreator, DuckCreator}
+package factory
+
 import scala.io.StdIn.readLine
 
 /**
