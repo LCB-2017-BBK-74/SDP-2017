@@ -1,0 +1,14 @@
+Implementation notes
+
+@author LucieCBurgess
+@author MattBostock
+@author SonamSadarangani
+
+Part II - Implement Vendor Parser
+
+1. Implement vendor.ProgramParser - use the src/main/scala directory. Use some example program files under the programs
+    directory as test cases - the implementation should work for these files
+
+    Implementation is in src/main/scala/vendor/ConcreteProgramParser
+
+2. Modify factory.VirtualMachineFactory to return an instance of the implementation from the vendorParser method
