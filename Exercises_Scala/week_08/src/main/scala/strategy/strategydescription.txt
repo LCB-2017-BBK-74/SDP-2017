@@ -1,0 +1,14 @@
+Week 08 worksheet
+
+Strategy design pattern - briefly describe the strategy design pattern, and explain when it's OK to use it
+
+From Ivan Nikolov, Scala Design Patterns:
+
+It is quite a common thing in enterprise applications to have different implementations of specific algorithms, and choosing
+one to use while the application is running. Examples might include different sorting algorithms that would have different
+performance for different sizes or types of data, different parsers for various possible representations of data, etc
+
+The strategy design pattern enables us to define a family of algorithms or applications, and select a specific one at runtime.
+
+The strategy design pattern also helps with encapsulation as each algorithm can be separately defined and then injected into
+the classes that use it.
