@@ -22,4 +22,22 @@ class PublicVendorParserSuite extends FunSuite {
       assert(insts(i).name == all(i))
     }
   }
+
+  test("[5] vendor parser should parse a program string with uppercase letters correctly") {
+    val insts = vp.parseString("ICONST 4\nICONST 5\nIADD\nPRINT")
+    val all = Vector("iconst","iconst","iadd","print")
+    for (i <- insts.indices) {
+      assert(insts(i).name == all(i))
+    }
+  }
+
+  test("[6] vendor parser should parse a program string with trailing or leading spaces correctly") {
+    val insts = vp.parseString("ICONST 4 \n ICONST 5\n IADD \n PRINT ")
+    val all = Vector("iconst","iconst","iadd","print")
+    for (i <- insts.indices) {
+      assert(insts(i).name == all(i))
+    }
+  }
+
+
 }
