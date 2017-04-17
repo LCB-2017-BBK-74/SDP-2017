@@ -1,0 +1,9 @@
+Q3 in the worksheet, Design Patterns II:
+
+When is it appropriate to use the abstract factory design pattern?
+
+The abstract factory has the same purpose as the factory design pattern. The purpose of using it is to encapsulate the
+object creation logic and hide it from the user. The difference is in how it is implemented.
+
+The abstract factory relies on object composition instead of inheritance, which is used by the factory method.
+Here we have a separate object which provides an interface to create instances of the classes we need.
