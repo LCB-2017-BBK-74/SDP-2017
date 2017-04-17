@@ -1,7 +1,7 @@
 package vendor
 
 /**
-  * Created by LucieCBurgess on 17/04/2017.
+  * @author LucieCBurgess on 17/04/2017.
   * Bytecode instructions can be loaded as files (e.g. p01.vm) in which each instruction is on a new line.
   * Or they can be loaded as strings, with the separators between each instruction as a backslash
   * e.g. String representation: "iconst 4\iconst 5\iadd \nprint"
@@ -54,7 +54,7 @@ class ProgramParserConcrete extends ProgramParser {
         str = sep(0).toLowerCase
         num = num :+ sep(1).toInt
       }
-      instrlist = instrlist :+ new Instruction (str, num)
+      instrlist = instrlist :+ new Instruction(str, num)
     }
     instrlist
   }
