@@ -1,0 +1,10 @@
+Facade design pattern description
+
+The purpose of the facade design pattern is to hide the complexity of a system and its implementation details,
+by providing a simpler interface to use to the client. This also helps to make the code more readable and to reduce the
+dependencies of the outside code. It works as a wrapper around the system that is being simplified and can be used
+in conjunction with some of the other design patterns mentioned previously.
+
+The facade design pattern is useful when we want to hide the implementation details of many libraries, make an interface
+much easier to use, and interact with complex systems.
+

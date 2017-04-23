@@ -1,0 +1,36 @@
+From Scala Design Patterns by Ivan Nikolov:
+
+The builder design pattern helps to create instances of classes using class methods, rather than the class constructors.
+It is useful in cases where a class might need multiple versions of its constructor in order to allow different usage scenarios.
+Moreover, in some cases, it might not be even possible to define all combinations or they might not be known.
+The builder design pattern uses an extra object called builder, in order to receive and store initialisation parameters,
+before building the final version of an object.
+
+The builder design pattern is really good for cases in which we need to create a complex object and would otherwise have
+to define many constructors
+
+case class PersonBuilder (firstName: String = "", lastName: String = "", age:Int = 0)
+
+object PersonCaseClassMain {
+    def main(args: Array[String]): Unit = {
+    val person1 = PersonBuilder (firstName = "Ivan", lastName = "Nikolov", age = 26)
+    val person2 = PersonBuilder (firstName = "John")
+    println(s"Person 1: $(person1)"
+    println(s"Person 2: $(person2)
+    }
+}
+
+Essentially the case class syntax in Scala does away with needing to write all the getters and setters are these are built
+in to the case class. It also keeps the fields of the PersonBuilder class immutable, which is good practice in Scala.
+
+Q5. from the worksheet
+"In general the details of object construction, such as instantiating and initialising the components that comrpise the object,
+are kept within the object, often as part of its constructor"
+Comment on this statement with respect to modularity and construction bloat.
+
+
+This approach works for simple objects for which the constructor always produces the same object. But as objects become more
+complicated and less modular, the components that make them up become diverse, the simple approach actually becomes more
+complex, as the constructor needs to change for different objects. This leads to more constructor code within the object (construction bloat)
+and code which is hard to maintain. Modularity: it might not be possible to define all combinations in advance or they might not be known, so the object
+is no longer modular. Hence, the Builder design pattern can come into play.
