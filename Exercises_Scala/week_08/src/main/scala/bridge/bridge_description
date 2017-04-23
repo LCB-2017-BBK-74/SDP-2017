@@ -1,0 +1,13 @@
+Bridge Design Pattern description
+
+The purpose of the bridge design pattern is to decouple an abstraction from its implementation so that the two can vary
+independently. It can be useful when a class and its functionality vary a lot. The bridge reminds us of the adapter design
+pattern, but the difference is that the adapter is used when something is already there and you cannot change it
+(like a third-party library) while the bridge design pattern is used when things are being built. It helps us to
+avoid ending up with multiple concrete classes that will be exposed to the client.
+
+Imagine we want to have a FileReader class that supports multiple different platforms. The bridge will help us end up with
+FileReader, which will use a different implementation, depending on the platform.
+
+
+
