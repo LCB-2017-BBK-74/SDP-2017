@@ -1,2 +1,40 @@
 Composite design pattern description
 
+The composite design pattern is used to describe groups of objects that should be treated in the same way as a single one.
+Its purpose is to compose objects into tree structures to represent whole-part hierarchies.
+The composite design pattern is useful for removing code deduplication and avoiding errors in cases where
+groups of objects are generally treated the same way. A popular example could be a file system in which we have directories,
+which can have other directories or files. Generally, the interface to interact with the directories and files
+is the same, so they are good candidates for a composite design pattern.
+
+Imagine: Node, Leaf, Tree. Tree is the composite object, made up of nodes, children with other Tree objects nested recursively
+or just Leaf nodes.
+
+e.g. trait Node {
+    def print(prefix: String) :Unit
+}
+
+case class Leaf (data:String) extends Node {
+    override def print(prefix: String) :Unit = println(s"$prefix $data")
+}
+
+case class Tree extends Node {
+
+    private val children = ListBuffer.empty[Node]
+
+    override def print(prefix: String) : Unit = {
+        println(s"$prefix")
+        children.foreach(_println(s"$prefix $prefix")
+        println(s"$prefix")
+    }
+
+    def add(child: Node) = {
+        children += child
+    }
+
+    def remove(): Unit = {
+        if (children.nonEmpty) children.remove(0)
+    }
+
+
+}

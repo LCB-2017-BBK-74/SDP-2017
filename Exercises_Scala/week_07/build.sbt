@@ -1,4 +1,4 @@
-name := "week_07_noerrors"
+name := "week_07"
 
 version := "1.0"
 

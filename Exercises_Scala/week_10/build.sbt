@@ -1,4 +1,4 @@
-name := "week10"
+name := "week_10"
 
 version := "1.0"
 
