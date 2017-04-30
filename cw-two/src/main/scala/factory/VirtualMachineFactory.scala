@@ -1,8 +1,8 @@
 package factory
 
-import bc.{ByteCodeFactory, ByteCodeParser}
-import vendor.{ProgramParserConcrete, ProgramParser}
-import vm.{VirtualMachine, VirtualMachineParser}
+import bc.{ByteCodeFactory, ByteCodeParser, ByteCodeParserConcrete}
+import vendor.{ProgramParser, ProgramParserConcrete}
+import vm.{VirtualMachine, VirtualMachineConcrete, VirtualMachineParser, VirtualMachineParserConcrete}
 
 /**
   * The `VirtualMachineFactory` follows the *factory pattern*. It provides
@@ -11,18 +11,15 @@ import vm.{VirtualMachine, VirtualMachineParser}
   * @author LucieCBurgess 17/04/2017
   */
 object VirtualMachineFactory {
-  // TODO
+
   def byteCodeFactory: ByteCodeFactory = new ByteCodeFactoryConcrete
 
-  // TODO
   def vendorParser: ProgramParser = new ProgramParserConcrete
 
-  // TODO
-  def byteCodeParser: ByteCodeParser = ???
+  def byteCodeParser: ByteCodeParser = new ByteCodeParserConcrete
 
-  // TODO
-  def virtualMachineParser: VirtualMachineParser = ???
+  def virtualMachineParser: VirtualMachineParser = new VirtualMachineParserConcrete
 
-  // TODO
-  def virtualMachine: VirtualMachine = ???
+  def virtualMachine: VirtualMachine = new VirtualMachineConcrete
+
 }

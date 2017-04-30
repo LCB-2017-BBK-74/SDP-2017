@@ -8,7 +8,7 @@ package iterator
 
 class ShapeIterator(private var shapes: Array[Shape]) extends Iterator[Shape] {
 
-  private var index = -1
+  private var index = 0
 
   override def hasNext(): Boolean = {
     index < shapes.length-1
