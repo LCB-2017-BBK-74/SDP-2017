@@ -60,11 +60,8 @@
 
   object example6 extends App {
 
-    def isEven(y: Int) :Unit = {
-      var result:Boolean = false
-      if (y % 2 == 0) {
-        result = true
-      }
+    def isEven(y: Int) :Boolean = {
+      y % 2 == 0
     }
   }
 

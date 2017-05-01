@@ -1,33 +1,39 @@
-// import Scala Collections List/ indexed sequence
 
 /**
   * Created by lucieburgess on 01/02/2017.
   */
-object NumberPersonalities extends App {
+object NumberPersonalities {
+
+  val limit = 100
+
+  def main(args: Array[String]): Unit = {
+
+    primeNumberGenerator(1000)
+
+    for (i <- 1 to limit) {
+      println(i)
+    }
+  }
 
   /**
     * You can test whether a number n is prime by dividing through the numbers 2 to n-1
     * If the modulo for one of these divisors is zero the number is not prime
     * A number which is not prime is called composite
     * @param n the number to be checked whether prime or composite
-    * @return true if the number is composite
+    * @return true if the number is prime
     */
     def isPrime(n: Int) :Boolean = {
-      var result :Boolean = true
-      for (i <- 2 until n - 1) {
-        if (n % i == 0) return false
-      }
-     true
+      if (n == 1) true
+      else if (n == 2) true
+      else !(2 to (n-1)).exists(x => n % x == 0)
     }
 
     def primeNumberGenerator(m: Int) :Unit = {
      for (m <- 1 to m)
-       if (isPrime(m)) print(m+" ")
+       if (isPrime(m)) println(s"$m is a prime!!!")
+       else println(s"$m is not a prime number")
     }
-
-  primeNumberGenerator(1000)
-
-
+  
   /**
     * Happy and unhappy numbers
     * Square the digits of the number and add the squares
@@ -41,23 +47,23 @@ object NumberPersonalities extends App {
     * 1024 mod 10 = 4; 1024/10 = 102; 102 mod 10 = 2; 102/10 = 10; 10 mod 10 = 0; 10/10 = 1; 1%10 = 1; 1/10 = 0 (stop)
     */
 
-  def isHappy(n: Int) :Boolean = {
-    var result = 0
-    while (result != 1) {
-
-    }
-  }
-
-  def getDigits(n: Int) :List[Int] = {
-    var intz :List[Int] = null
-    if (n == 0) return intz.add(0)
-    else {
-      intz.add(n % 10)
-      intz.add = (n / 10)
-      n = n / 10
-    }
-    getDigits(n)
-    }
+//  def isHappy(n: Int) :Boolean = {
+//    var result = 0
+//    while (result != 1) {
+//
+//    }
+//  }
+//
+//  def getDigits(n: Int) :List[Int] = {
+//    var intz :List[Int] = null
+//    if (n == 0) return intz.add(0)
+//    else {
+//      intz.add(n % 10)
+//      intz.add = (n / 10)
+//      n = n / 10
+//    }
+//    getDigits(n)
+//    }
 
 
 
