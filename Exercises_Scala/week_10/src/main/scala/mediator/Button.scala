@@ -8,9 +8,10 @@ class Button extends Colleague {
     this.mediator = mediator
   }
 
-  def press(): Unit = {
+  def press: Unit = {
     println("Button pressed.")
-    mediator.start()
+    mediator.start
+    mediator.wash
   }
 
 }

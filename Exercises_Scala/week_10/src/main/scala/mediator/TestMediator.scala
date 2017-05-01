@@ -17,7 +17,7 @@ object TestMediator extends App {
     heater.setMediator(mediator)
     valve.setMediator(mediator)
     
-    button.press()
+    button.press
     
     println(
       "******************************************************************************")
@@ -28,5 +28,5 @@ object TestMediator extends App {
     machine.setMediator(mediator)
     heater.setMediator(mediator)
     valve.setMediator(mediator)
-    button.press()
+    button.press
 }

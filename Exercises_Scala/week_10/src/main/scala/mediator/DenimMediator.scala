@@ -5,8 +5,7 @@ class DenimMediator(private val machine: Machine,
                     private val motor: Motor,
                     private val sensor: Sensor,
                     private val soilRemoval: SoilRemoval,
-                    private val valve: Valve)
-    extends MachineMediator {
+                    private val valve: Valve) extends MachineMediator {
 
   println(".........................Setting up for DENIM program.........................")
 
@@ -28,6 +27,6 @@ class DenimMediator(private val machine: Machine,
 
   override def off() = heater.off
 
-  override def checkTemperature(temp: Int): Boolean =
-    sensor.checkTemperature(temp)
+  override def checkTemperature(topTemp: Int = 30): Boolean =
+    sensor.checkTemperature(topTemp)
 }
