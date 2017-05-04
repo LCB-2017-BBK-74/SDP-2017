@@ -177,7 +177,48 @@ object squareNumbers extends App {
   println(isSquare(5)) //should be false
   println(isSquare(6)) // should be false
 
+}
 
+/**
+  * A number is smug if it is the sum of two square numbers.
+  * Square numbers (1,4,9,16,25, ....)
+  * The first few smug numbers are 2 (1+1), 5 (1+4), 8 (4+4), 10 (1+9), 13 (4+9), etc.
+  * Programming note. To test if a number is smug, do the following. For each of the square numbers
+  * (which you can get as 1*1, 2*2, 3*3, etc.), subtract that number, and see if the remainder is also a square number.
+  * You can stop if the remainder is less than the square number you subtracted.
+  * [An easier way to do this is to keep subtracting 1 and test if either number is square.]
+  */
+object smugNumbers extends App {
+
+  def isSmug(n:Int) :Boolean = {
+
+    var m = 1
+    var l = n - m
+    for (i <- 1 to n) {
+      if ((isSquare(l)) && (isSquare(m))) return true
+      m += 1
+      l = n - m
+      if (l < 0) false
+    }
+    false
+  }
+
+    def isSquare(n: Int): Boolean = {
+      n match {
+        case n if n < 0 => false
+        case n => square(n, 1, (counter: Int) => counter + 2)
+      }
+    }
+
+    def square(n: Int, counter: Int, f: Int => Int): Boolean = (n, counter) match {
+      case _ if (n - counter) == 0 => true
+      case _ if (n - counter) < 0  => false
+      case _ => square(n - counter, f(counter), f)
+    }
+
+  for (i <- 1 to 13) {
+    println(s"$i is smug " + isSmug(i))
+  }
 }
 
 
