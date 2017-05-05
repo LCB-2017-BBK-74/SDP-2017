@@ -8,56 +8,26 @@ import sml.Instruction;
 /**
  * Created by lucieburgess on 19/02/2017.
  * The InstructionFactory needs to generate instructions as in the commented out code in the Translator class
- * fields(1) match {
- * case ADD =>
- * program = program :+ AddInstruction(fields(0), fields(2).toInt, fields(3).toInt, fields(4).toInt)
- * case LIN =>
- * program = program :+ LinInstruction(fields(0), fields(2).toInt, fields(3).toInt)
+ *
+ * First of all generateInstruction generates the class of the instruction from the opcode e.g. bnz, add
+ * Then it gets the Constructor of each class
+ * Gets the arguments of the instruction Constructor
+ * And finally instantiates it as an object, handling the exceptions
+ * Look at the Java 8 Reflect API tutorial - see docs.oracle.com/javase/tutorial/reflect/index.html
+ *
  * @return an Instruction which depends on the type of instruction parameters given in the line
- *         Need to generate a constructor depending on the type of instruction
- *         Generate the class name and therefore the type of instruction
- *         And then populate the constructor with the parameters given in the array 'fields'
- *         Fields(1) is the same as the prefix of the class. So should be able to generate classname from the prefix
- *         The remaining parameters are either ints or strings. If they are ints you can parse them as ints
- *          Look at the Java 8 Reflect API tutorial - see docs.oracle.com/javase/tutorial/reflect/index.html
  */
 public class InstructionFactory {
 
-    private Instruction instr = null;
-
     public Instruction generateInstruction(String[] fields) {
-        Class instrclass = this.generateClass(fields); // generate class of the instruction from opcode e.g. bnz, add
 
-        //Get the constructor arguments by parsing the program line as ints or strings
-        Object[] cparams = new Object[fields.length - 1]; // initialise array to the length of fields - 1 (as we don't want opcode)
+        Instruction instr = null;
 
-        for (int i = 0; i <= fields.length; i++) {
-            try {
-                cparams[i] = Integer.parseInt(fields[i]); // if it doesn't parse as an Integer we want to keep as a string
-            } catch (NumberFormatException ex) {
-                ex.printStackTrace();
-            }
-            try {
-                cparams[i] = fields[i];
-            } catch (IllegalStateException ex) { //exception if incompatible types? Do we need to handle exceptions here?
-                ex.printStackTrace();
-            }
-        }
-
-        // Get the constructor argument types, i.e. ints or strings
-        Class[] cparamsTypes = new Class[fields.length - 1]; //inititialise empty Class array to the length of fields
-        for (int i = 0; i < fields.length; i++) {
-            cparamsTypes[i] = cparams[i].getClass();
-        }
-
-        Constructor cons = null;
         try {
-            cons = instrclass.getConstructor(cparamsTypes); // NoSuchMethodException
-        } catch (NoSuchMethodException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            instr = (Instruction) cons.newInstance(cparams); //InstantationException, IllegalAccessException, InvocationTargetException
+            Class instrclass = this.generateClass(fields);
+            Constructor[] cons = instrclass.getConstructors();
+            Object[] consparams = generateConstructorObjects(fields, cons[0].getParameterTypes());
+            instr = (Instruction) cons[0].newInstance(consparams);
         } catch (InstantiationException ex) {
             ex.printStackTrace();
         } catch (IllegalAccessException ex) {
@@ -66,6 +36,27 @@ public class InstructionFactory {
             ex.printStackTrace();
         }
         return instr;
+    }
+
+    Object[] generateConstructorObjects(String[] fields, Class[] cparams) { //package-private
+
+        if (fields.length != cparams.length) {
+            throw new IllegalArgumentException("Instruction objects and construction parameters must be same length");
+        }
+        Object[] resultObject = new Object[fields.length];
+
+        for (int i = 0; i < fields.length; i++) {
+            try {
+                if (cparams[i].getName().equals("int")) {
+                    resultObject[i] = Integer.parseInt(fields[i]); //parse as Int
+                } else {
+                    resultObject[i] = fields[i]; //parse as String
+                }
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return resultObject;
     }
 
     /**
@@ -77,20 +68,14 @@ public class InstructionFactory {
     public Class generateClass(String[] fields) {
         Class instrcl = null;
         String classType = fields[1].toLowerCase();
-        String firstLetter = classType.substring(0).toUpperCase();
-        String className = firstLetter.concat(classType.substring(1,3)).concat("Instruction");
+        String firstLetter = classType.substring(0,1).toUpperCase();
+        String className = "sml.".concat(fields[1].substring(0,1).toUpperCase()).concat(fields[1].substring(1).toLowerCase()).concat("Instruction");
         try {
             instrcl = Class.forName(className);
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         return instrcl;
-    }
-
-    public static void main(String[] Args) {
-        Class instrcl = null;
-        String [] fields =
-
     }
 
 }

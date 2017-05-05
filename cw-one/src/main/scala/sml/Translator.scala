@@ -24,29 +24,10 @@ class Translator(fileName: String) {
       val fields = line.split(" ") // fields is an array of Strings which you can treat as a normal Java array [] - the array contains one instruction
       if (fields.length > 0) {
         labels.add(fields(0))
+        val name = fields(1)
         val instrfactory = new InstructionFactory()
         program = program :+ instrfactory.generateInstruction(fields)
       }
-
-//        fields(1) match {
-//          case ADD =>
-//            program = program :+ AddInstruction(fields(0), fields(2).toInt, fields(3).toInt, fields(4).toInt)
-//          case LIN =>
-//            program = program :+ LinInstruction(fields(0), fields(2).toInt, fields(3).toInt)
-//          case SUB =>
-//            program = program :+ SubInstruction(fields(0), fields(2).toInt, fields(3).toInt, fields(4).toInt)
-//          case MUL =>
-//            program = program :+ MulInstruction(fields(0), fields(2).toInt, fields(3).toInt, fields(4).toInt)
-//          case DIV =>
-//            program = program :+ DivInstruction(fields(0), fields(2).toInt, fields(3).toInt, fields(4).toInt)
-//          case BNZ =>
-//            program = program :+ BnzInstruction(fields(0), fields(2).toInt, fields(3))
-//          case OUT =>
-//            program = program :+ OutInstruction(fields(0), fields(2).toInt)
-//          case x =>
-//            println(s"Unknown instruction $x")
-//        }
-
     }
     new Machine(labels, program)
   }

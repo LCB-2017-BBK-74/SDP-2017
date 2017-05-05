@@ -28,6 +28,11 @@ case class Machine(labels: Labels, prog: Vector[Instruction]) {
 //  start.until(prog.length).foreach(x => prog(x) execute this)
 }
 
+/**
+  * The main method of the program.
+  * To change the file from test1.sml to test2.sml, edit configurations (under the Run menu).
+  */
+
 object Machine {
   def main(args: Array[String]) {
     if (args.length == 0) {
