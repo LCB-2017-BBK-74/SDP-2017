@@ -2,20 +2,15 @@ package vm
 
 import bc.{ByteCode, ByteCodeParserConcrete, ByteCodeValues, InvalidBytecodeException}
 import vendor.{Instruction, ProgramParserConcrete}
-
-import scala.collection.immutable.Vector
 import scala.util.control.NonFatal
 
 /**
-  * Created by lucieburgess on 28/04/2017.
-  * A `VirtualMachineParser` is used to parse a file of bytecode instructions (as defined by [[vendor.ProgramParser]]).
-  * Note, we will use the vendor's parser to parse a file and use the adapter design pattern to write an adapter that will
-  * translate a vector of [[vendor.Instruction]] into a vector [[bc.ByteCode]].
-  * From the vendor.Instruction class: "The vendor views an instruction as a (`String`, `Vector[Int]`) pair"
-  * Whereas a ByteCode is a class which has a method execute and a val code; none of the methods have parameters/ arguments
-  * apart from Const, which takes an int (class Const (val num: Int) extends ByteCode
-  * val code = Vector(bytecode("iconst"), 4.toByte, bytecode("iconst"), 5.toByte, bytecode("iadd"), bytecode("print"))
-    val bc = bcp.parse(code)
+  * Created by mattbostock on 22/04/2017, reviewed and updated by LucieCBurgess 29/04/2017
+  * @author Matt Bostock, LucieCBurgess
+  * Note, this class uses the vendor's parser to parse a file of bytecode into a vector[Instruction]
+  * It then uses the adapter design pattern to write an adapter that translates a vector of
+  * [venddor.Instruction] to a vector of [Byte] and then [bc.ByteCode] using the ByteCodeParser.
+  * NB. This class extends ByteCodeValues for access to the bytecode field.
   */
 class VirtualMachineParserConcrete extends VirtualMachineParser with ByteCodeValues {
 
@@ -23,59 +18,55 @@ class VirtualMachineParserConcrete extends VirtualMachineParser with ByteCodeVal
   val bcp = new ByteCodeParserConcrete
 
   /**
-    * We use vendor.ProgramParser to parse the file of instructions and translate a vector of
-    * [[vendor.Instruction]] into a vector [[bc.ByteCode]]. Returns a vector of [[bc.ByteCode]].
+    * Returns a vector of [[bc.ByteCode]].
+    *
+    * This method parses a file into a vector of bytecode objects.
     * Note, this method should throw a [[bc.InvalidBytecodeException]]
     * if it fails to parse a program file correctly.
     *
     * @param file the file containing a program
+    * @throws [bc.InvalidBytecodeException] if file fails to parse correctly
     * @return a vector of bytecodes
     */
-  override def parse(file: String) :Vector[ByteCode] = {
-
-    val instrs = ppc.parse(file)
-    var bytes: Vector[Byte] = Vector[Byte]()
+  def parse(file: String): Vector[ByteCode] = {
     try {
-      bytes = adapter(instrs)
+      val instrs = ppc.parse(file)
+      val bytes = instructionsToBytes(instrs)
+      bcp.parse(bytes)
     } catch {
-      case ex: InvalidBytecodeException => ex.printStackTrace()
+      case NonFatal(ex) => throw new InvalidBytecodeException(ex.toString)
     }
-    bcp.parse(bytes)
+  }
+
+  /**
+    * Returns a vector of [[bc.ByteCode]].
+    *
+    * This method parses a string into a vector of bytecode objects.
+    * Note, this method should throw a [[bc.InvalidBytecodeException]]
+    * if it fails to parse a program string correctly.
+    *
+    * @param str a string containing a program
+    * @throws (classOf[bc.InvalidBytecodeException) if string fails to parse correctly
+    * @return a vector of bytecodes
+    */
+
+  def parseString(str: String): Vector[ByteCode] = {
+    try {
+      val instrs = ppc.parseString(str)
+      val bytes = instructionsToBytes(instrs)
+      bcp.parse(bytes)
+    } catch {
+      case NonFatal(ex) => throw new InvalidBytecodeException(ex.toString)
+    }
   }
 
   /**
     *
-    * @param str a string containing a program
-    * @return a vector of ByteCodes
+    * @param instrs, a vector[Instruction] to translate to a vector[Byte] using the adapter pattern
+    * @return bytes, the vector of Bytes.
     */
-  override def parseString(str: String) :Vector [ByteCode] = {
-
-    val instrs = ppc.parseString(str)
-    var bytes: Vector[Byte] = Vector[Byte]()
-    try {
-      bytes = adapter(instrs)
-    } catch {
-      case NonFatal(ex) => throw new InvalidBytecodeException(ex.toString)
-    }
-    bcp.parse(bytes)
-  }
-
-  /**
-    * Private method which adapts a vector of instructions to a vector of Bytes to give to the ByteCodeParser.
-    * @param instrs
-    * @return bytes, a vector of [Byte] which can then be parsed using the ByteCodeParser.
-    */
-  private def adapter(instrs: Vector[Instruction]): Vector[Byte] = {
-    var bytes: Vector[Byte] = Vector[Byte]()
-    for (i <- instrs) {
-      if (!bytecode.contains(i.name)) {
-        throw new InvalidBytecodeException("Invalid bytecode")
-      } else {
-        bytes = bytes :+ bytecode(i.name)
-        if (i.args.length > 0) bytes = bytes :+ i.args(0).toByte
-      }
-    }
-    bytes
+  private def instructionsToBytes(instrs: Vector[Instruction]): Vector[Byte] = {
+    instrs.flatMap(i => (Vector(bcp.bytecode.apply(i.name)) ++ i.args.map(_.toByte)))
   }
 
 }

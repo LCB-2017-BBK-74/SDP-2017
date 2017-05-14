@@ -3,7 +3,8 @@ package bc
 import vm.VirtualMachine
 
 /**
-  * Created by lucieburgess on 17/04/2017.
+  * @author Created by LucieCBurgess on 17/04/2017, reviewed and updated by MattBostock on 26/04/2017
+  *         Represents an Add bytecode operation
   */
 class AddByteCode extends ByteCode with ByteCodeValues {
 
@@ -26,9 +27,8 @@ class AddByteCode extends ByteCode with ByteCodeValues {
     * @return a new virtual machine
     */
   override def execute(vm: VirtualMachine): VirtualMachine = {
-    var res1, vm1 = vm.pop()._1
-    var res2 = vm.pop()._1
-    vm.push(res1+res2)
-    vm
+    val (res1, vm1) = vm.pop()
+    val (res2, vm2) = vm1.pop()
+    vm2.push(res1 + res2)
   }
 }
