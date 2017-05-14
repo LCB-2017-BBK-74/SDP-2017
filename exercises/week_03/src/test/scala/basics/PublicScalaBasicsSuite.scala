@@ -128,11 +128,13 @@ class PublicScalaBasicsSuite extends FunSuite {
 
   test("[11] wordCounter should return a map of words and word frequency across several lines") {
     TreeTraversals.getMethod("src/main/scala/basics/ScalaBasics.scala", "wordCounter") match {
+      case Some(method) => println("The method exists")
       case None =>
-        fail("The method wordCouter does not exist")
+        fail("The method wordCounter does not exist")
     }
     assert(wordCounter(Array("this is a sentence.","this is a sentence too!"))
       equals Map("this" -> 2, "is" -> 2,"a" -> 2,"sentence." -> 1,"sentence" -> 1, "too!" -> 1))
+      println("Got this far")
   }
 
 }

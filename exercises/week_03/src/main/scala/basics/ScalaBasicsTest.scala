@@ -12,13 +12,13 @@ object ScalaBasicsTest extends App {
     println("Hello World")
 
     var r: Array[Int] = Array(2, 1, 3)
-    println(r)
+    println(r).toString
 
     var c: Array[Int] = Array(1, 3)
-    println(c)
+    println(c).toString
 
     c = c.drop(1)
-    println(c)
+    println(c).toString
 
     var result = minRecursive(r)
 
@@ -46,9 +46,27 @@ object ScalaBasicsTest extends App {
         // val upper = for (c <- "hello, world") yield c.toUpper from Scala CookBook
 
         val normalString = for (c <- s if c.isLetter) yield c.toLower
-
         normalString equals normalString.reverse
     }
 
     println(isPalindrome("01110"))
+
+    def wordCounter(lines: Array[String]): Map[String, Int] = {
+      val map = lines.flatMap(_.split("\\W")).groupBy(identity).mapValues(_.length)
+      map
+    }
+
+    def wordCounter2(lines: Array[String]) :Map[String, Int] = {
+
+    lines.flatMap(_.split(" "))
+      .groupBy(word => word)
+      .mapValues(_.length)
+  }
+
+    val lines = Array("this is a sentence.","this is a sentence too!")
+    println(wordCounter2(lines))
+
 }
+
+
+

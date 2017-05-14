@@ -222,7 +222,17 @@ object ScalaBasics {
    * @param cc 0 or more characters Char* means any number of chars including zero
    * @return the sum of the ASCII integers corresponding with the character.
    */
-  def sumChars(cc: Char*): Int = (for (c <- cc) yield c.toInt).sum
+  def sumChars(cc: Char*): Int = {
+    var result: Int = 0
+    for (c <- cc) {
+      result += c.toInt
+    }
+    result
+  }
+
+  // Using a for comprehension:
+  // def sumChars(cc: Char*): Int = for (c <- cc) yield c.toInt.sum
+
 
   /**
    * Counts the number of space delimited words in the provided array of strings.
@@ -251,11 +261,9 @@ object ScalaBasics {
    */
   def wordCounter(lines: Array[String]): Map[String, Int] = {
 
-      lines.flatMap(_.split("\\W")).foldLeft(Map.empty[String, Int]) {
-        (count, word) => count + (word -> (count.getOrElse(word, 0) + 1))
-      }
+    lines.flatMap(_.split(" ")).groupBy(word => word).mapValues(_.length)
   }
 
-// No test implemented for this so maybe should implement one ...
+  //NB. lines(_.split("\\W")) gets rid of the full stop at the end of 'sentence' putting the wrong value in the map
 
 }
