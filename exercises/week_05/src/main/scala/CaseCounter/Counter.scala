@@ -2,7 +2,7 @@ package CaseCounter
 
 /**
   * Created by lucieburgess on 14/02/2017.
-  * Case classes: constructor paramaters are val by default
+  * Case classes: constructor parameters are val by default
   * Counter parameter count is val by default.
   */
 case class Counter (val count: Int = 0) {

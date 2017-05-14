@@ -10,7 +10,7 @@ import scala.collection.Seq
 class FunctionsTestSuite2 extends FunSuite{
 
   test("[01] Tail removes the first element") {
-    val ls = FuncsList(1,2,3,4)
+    val ls = FuncsList.apply(1,2,3,4)
     assert(FuncsList.tail(ls).equals(FuncsList(2, 3, 4)))
   }
 
