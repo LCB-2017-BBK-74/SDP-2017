@@ -2,33 +2,39 @@ package functions
 
 import functions.Funcs2._
 import org.scalatest.FunSuite
+import scala.collection.Seq
+
 /**
   * Created by lucieburgess on 07/02/2017.
   */
 class FunctionsTestSuite2 extends FunSuite{
-  // Basics
+
   test("[01] Tail removes the first element") {
-    val xs = List(1,2,3,4)
-    assert(List.tail(xs) == List(2, 3, 4))
+    val ls = FuncsList(1,2,3,4)
+    assert(FuncsList.tail(ls).equals(FuncsList(2, 3, 4)))
   }
 
-//  test("[02] setHead changes the first element of the list") {
-//    assert(setHead(List("A", "B", "C"), "0") == List("0", "B", "C"))
-//  }
-//
-//  test("[03] drop removes N elements from the front of the list") {
-//    assert(drop(List(1, 2, 3), 2) == List(3))
-//  }
-//
-//  test("[04] init removes the last element") {
-//    assert(init(List("A", "B", "C", "D")) == List("A", "B", "C"))
-//  }
-//
-//  // Folding
-//  test("[05] foldLeft computes the correct value") {
-//    assert(foldLeft(List("H", "e", "l", "l", "o"), "")(_ + _) == "Hello")
-//  }
-//
+  test("[02] setHead changes the first element of the list") {
+    val ls = FuncsList("A", "B", "C")
+    assert(FuncsList.setHead(ls,"0").equals(FuncsList("0", "B", "C")))
+  }
+
+  test("[03] drop removes N elements from the front of the list") {
+    val ls = FuncsList(1,2,3)
+    assert(FuncsList.drop(ls, 2).equals(FuncsList(3)))
+  }
+
+  test("[04] init removes the last element") {
+    val ls = FuncsList("A", "B", "C", "D")
+    assert(FuncsList.init(ls).equals(FuncsList("A", "B", "C")))
+  }
+
+  // Folding
+  test("[05] foldLeft computes the correct value") {
+    val ls = FuncsList("H", "e", "l", "l", "o")
+    assert(FuncsList.foldLeft(ls, "")(_ + _) == "Hello")
+  }
+
 //  // New test added
 //  test("[06] foldRight computes the correct value") {
 //    assert(foldRight(List("o", "l", "l", "e", "H"), "")(_ + _) == "Hello")
@@ -42,9 +48,10 @@ class FunctionsTestSuite2 extends FunSuite{
 //    assert(product(List(1.0, 2.0, 3.0, 4.0, 5.0)) == 120.0)
 //  }
 //
-//  test("[09] length calculates the length") {
-//    assert(length("Hello".toList) == 5)
-//  }
+  test("[09] length calculates the length") {
+    val ls = FuncsList("H", "e", "l", "l", "o")
+    assert(FuncsList.length(ls) == 5)
+  }
 //
 //  //  test("[10] reverse reverses the list") {
 //  //    assert(reverse("Hello".toList) == "olleH".toList)
@@ -54,10 +61,11 @@ class FunctionsTestSuite2 extends FunSuite{
 //  //    assert(flatten(List(List(1, 2, 3), List(4, 5, 6))) == List(1, 2, 3, 4, 5, 6))
 //  //  }
 //
-//  // Map and Filter
-//  test("[12] map creates a new list of the correct values") {
-//    assert(map((1 to 10).toList)(_ + 1) == (2 to 11).toList)
-//  }
+//  Map and Filter
+  test("[12] map creates a new list of the correct values") {
+    val ls = FuncsList(1,2,3,4,5,6,7,8,9,10)
+    assert(FuncsList.map(ls)(_ + 1) == FuncsList((2,3,4,5,6,7,8,9,10,11)))
+  }
 //
 //  test("[13] filter filters the list") {
 //    assert(filter((-5 to 5).toList)(_ > 0) == (1 to 5).toList)

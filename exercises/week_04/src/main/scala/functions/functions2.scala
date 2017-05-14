@@ -5,27 +5,28 @@ package functions
   */
 object Funcs2 {
 
-  sealed trait List[+A]
+  sealed trait FuncsList[+A]
 
   // A data constructor for the empty list.
   // Nothing is a subtype of all types - so, Nil can be considered
   // a List[Int], List[String], etc. which is important for our
   // definition.
-  case object Nil extends List[Nothing]
+  case object Nil extends FuncsList[Nothing]
 
   // A data constructor for representing a non-empty list
-  case class Cons[+A](head: A, tail: List[A]) extends List[A]
+  case class Cons[+A](head: A, tail: FuncsList[A]) extends FuncsList[A]
 
   //The list companion object.
-  object List {
+  object FuncsList {
 
     /**
-      * Helper method apply which is somehow needed to create a non-generic List/ Not sure why??
+      * Helper method apply which is needed to create a non-generic List
+      *
       * @param as
       * @tparam A
       * @return
       */
-    def apply[A](as: A*): List[A] = {
+    def apply[A](as: A*): FuncsList[A] = {
       if (as.isEmpty) Nil
       else Cons(as.head, apply(as.tail: _*))
     }
@@ -37,7 +38,7 @@ object Funcs2 {
       * @tparam A
       * @return the length of the list as an Int
       */
-    def length[A](ls: List[A]): Int = ls match {
+    def length[A](ls: FuncsList[A]): Int = ls match {
       case Nil => 0
       case Cons(h, t) => 1 + length(t) //recursively call a function which calculates the simplelength of the list
     }
@@ -48,7 +49,7 @@ object Funcs2 {
       * @param ints
       * @return the sum of the list elements as an Int
       */
-    def sumInt(ints: List[Int]): Int = ints match {
+    def sumInt(ints: FuncsList[Int]): Int = ints match {
       case Nil => 0
       case Cons(h, t) => h + sumInt(t) //sum the list if A is a list of integers
     }
@@ -62,7 +63,7 @@ object Funcs2 {
       * @return A list containing all but the first element of ls
       */
 
-    def tail[A](ls: List[A]): List[A] = ls match {
+    def tail[A](ls: FuncsList[A]): FuncsList[A] = ls match {
       case Nil => throw new IllegalArgumentException
       case Cons(h, t) => t
     }
@@ -76,7 +77,7 @@ object Funcs2 {
       * @return a list whose head is 'a' and whose tail is all but the first
       *         element of ls.
       **/
-    def setHead[A](ls: List[A], a: A): List[A] = ls match {
+    def setHead[A](ls: FuncsList[A], a: A): FuncsList[A] = ls match {
       case Nil => Cons(a, Nil)
       case Cons(h, t) => Cons(a, t)
     }
@@ -89,7 +90,7 @@ object Funcs2 {
       * @param n  : Int the number of elements to drop.
       * @return a list with the first n elements of ls removed, or an empty list.
       */
-    def drop[A](ls: List[A], n: Int): List[A] = ls match {
+    def drop[A](ls: FuncsList[A], n: Int): FuncsList[A] = ls match {
       case Nil => throw new IllegalArgumentException("Can't call drop on an empty list")
       case Cons(h, t) => {
         if (n <= 0) Cons(h, t) else if (n > length(ls)) Nil else if (n == 1) t else drop(t, n - 1)
@@ -104,7 +105,7 @@ object Funcs2 {
       * @param ls : List[A] the list to be changed.
       * @return a list with the last element of ls removed.
       */
-    def init[A](ls: List[A]): List[A] = ls match {
+    def init[A](ls: FuncsList[A]): FuncsList[A] = ls match {
       case Nil => throw new IllegalArgumentException("Can't call init on an empty list")
       case Cons(h, t) =>
         if (length(ls) == 1) Nil
@@ -112,11 +113,28 @@ object Funcs2 {
         else Cons(h, init(t))
     }
 
-  }
+    /**
+      * FoldLeft
+      * @param ls
+      * @param z
+      * @param f
+      * @tparam A
+      * @tparam B
+      * @return something of type B
+      */
+    def foldLeft[A, B](ls: FuncsList[A], z: B)(f: (B, A) => B): B = ls match {
+      case Nil => z
+      case Cons(h,t) => foldLeft(t, f(z, h))(f)
+    }
 
-  def main(args: Array[String]): Unit = {
-    val test = List(1,2,3,4)
-    List.tail(test)
+    def map[A, B](ls: FuncsList[A])(f: A => B): FuncsList[B] = ls match {
+      case Nil => throw new IllegalArgumentException("Can't call map on an empty list")
+      case Cons(h,t) => {
+        if (length(ls) == 1) Cons(f(h),Nil) else Cons(f(h),map(t)(f))
+      }
+    }
+
+
   }
 
 }
