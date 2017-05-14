@@ -1,4 +1,4 @@
-package impl
+package traits
 
 /**
   * Created by lucieburgess on 25/01/2017.
