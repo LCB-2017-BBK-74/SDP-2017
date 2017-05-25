@@ -24,11 +24,3 @@ case class Work(start: Int, nuElements: Int) extends PiMessage
 case class Result(value: Double) extends PiMessage
 
 case class PiApproximation (pi: Double, duration: Duration)
-
-
-
-
-
-
-
-
