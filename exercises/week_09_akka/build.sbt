@@ -12,7 +12,7 @@ libraryDependencies += "com.typesafe.akka" %% "akka-actor" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-remote" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-slf4j" % akkaVersion
-//libraryDependencies += "ch.qos.logback" %% "logback-classic" % "1.2.3"
+libraryDependencies += "ch.qos.logback" %% "logback-classic" % "1.0.7"
 
 // Change this to another test framework if you prefer
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
