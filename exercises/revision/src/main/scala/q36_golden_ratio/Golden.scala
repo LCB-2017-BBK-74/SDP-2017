@@ -9,16 +9,16 @@ import scala.math.abs
 
 object Golden extends App {
 
-  def estimateB(a: Double, bmin: Double, bmax: Double, err: Double) :Double = {
+  def estimateB(a: Double, bmin: Double, bmax: Double, err: Double) :Double = { // start with a = 3, bmin = 0, bmax = a = 3
 
-    var estB = (bmin+bmax)/2 //1.5
-    val golden1 = (a+estB)/a //1.5
-    val golden2 = a/estB // 2
+    val estB = (bmin+bmax)/2 //1.5
+    val golden1 = (a+estB)/a // = (3+1.5)/3 = 1.5
+    val golden2 = a/estB // = 3/1.5 = 2
     val result = math.abs(golden1-golden2) //0.5
 
     if (result < err) result
-    else if (golden2 >= golden1) estimateB(a, estB, bmax, err)
-    else estimateB(a, bmin, estB, err)
+    else if (golden2 > golden1) estimateB(a, estB, bmax, err) // (3, 1.5, 3, err)
+    else estimateB(a, bmin, estB, err) // (3,0, 1.5, err)
   }
 
   val a = 3.0
