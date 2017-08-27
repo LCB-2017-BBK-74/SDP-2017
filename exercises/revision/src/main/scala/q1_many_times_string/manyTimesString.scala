@@ -5,10 +5,10 @@ package q1_many_times_string
   */
 object manyTimesString extends App {
 
-  def manyTimesString(message: String, n:Int) :String = {
-    if (n <= 0) ""
-    else if (n == 1) message
-    else message + manyTimesString(message, n-1)
+  def manyTimesString(message: String, n:Int) :String = n match {
+    case n if (n <= 0) => ""
+    case 1 => message
+    case n =>  message + manyTimesString(message, n-1)
   }
 
   val m1 = manyTimesString("abc",3)

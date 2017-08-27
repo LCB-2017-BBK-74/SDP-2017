@@ -105,10 +105,12 @@ class Master(nrWorkers: Int, nrMessages: Int, nrElements: Int, listener: ActorRe
   * and shuts down the Actor system
   */
 class Listener extends Actor {
+
+
   def receive = {
     case PiApproximation(pi, duration) =>
       println("\n\tPi approximation: \t\t%s\n\tCalculation time: \t%s".format(pi, duration))
-      context.system.terminate()
+      //context.system.terminate()
   }
 }
 

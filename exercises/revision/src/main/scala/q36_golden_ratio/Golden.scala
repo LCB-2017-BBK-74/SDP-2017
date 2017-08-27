@@ -16,7 +16,7 @@ object Golden extends App {
     val golden2 = a/estB // = 3/1.5 = 2
     val result = math.abs(golden1-golden2) //0.5
 
-    if (result < err) result
+    if (result < err) estB
     else if (golden2 > golden1) estimateB(a, estB, bmax, err) // (3, 1.5, 3, err)
     else estimateB(a, bmin, estB, err) // (3,0, 1.5, err)
   }

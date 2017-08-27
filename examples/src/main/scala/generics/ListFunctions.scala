@@ -72,15 +72,15 @@ class ListFunctions {
     case h::t => f(h)::map(f,t)
   }
 
-  def incrs2(ls: List[Int]) = {
-    def f(n: Int) = n+1
-    map (f, ls)
-  }
+//  def incrs2(ls: List[Int]) = {
+//    def f(n: Int) = n+1
+//    map (f)(ls)
+//  }
 
   // the n:Int style function doesn't work for the String version, func2. So we can parameterise out A=>B e.g. String=> Int:
-  def map[A,B] (f: A=> B, ls: List[A]) :List[B] = ls match {
+  def map2[A,B] (f: A=> B, ls: List[A]) :List[B] = ls match {
     case Nil => Nil
-    case h::t => f(h):: map[A,B](f,t)
+    case h::t => f(h):: map2[A,B](f,t)
   }
 
   /**
