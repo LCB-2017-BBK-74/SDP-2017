@@ -119,7 +119,7 @@ object triangularNumbers extends App {
 }
 
 /**
-  * This doesn't work and I don't understand why
+  * This doesn't work ...
   */
 object triangularNumbers2 extends App {
 

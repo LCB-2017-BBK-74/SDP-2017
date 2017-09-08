@@ -72,11 +72,6 @@ class ListFunctions {
     case h::t => f(h)::map(f,t)
   }
 
-//  def incrs2(ls: List[Int]) = {
-//    def f(n: Int) = n+1
-//    map (f)(ls)
-//  }
-
   // the n:Int style function doesn't work for the String version, func2. So we can parameterise out A=>B e.g. String=> Int:
   def map2[A,B] (f: A=> B, ls: List[A]) :List[B] = ls match {
     case Nil => Nil
@@ -102,11 +97,6 @@ class ListFunctions {
       case false => filter(f,t)
     }
   }
-
-  /**
-    * Sorting
-    */
-
 
 }
   
